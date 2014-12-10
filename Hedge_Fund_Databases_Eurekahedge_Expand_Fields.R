@@ -212,7 +212,7 @@ a_ply(.data=final_folder_files[final_folder_files[,"import"] %in% c(1),], .margi
   
   if("Date_Added" %in% colnames(input)){input[,"Date_Added"] <- as.yearmon(input[,"Date_Added"],format="%b %Y")} 
   if("Dead_Date" %in% colnames(input)){input[,"Dead_Date"] <- as.yearmon(input[,"Dead_Date"],format="%b %Y")} 
-
+  
   assign(x[,"file_name"], input, envir = .GlobalEnv)
   
   rm(input)
@@ -234,7 +234,7 @@ a_ply(.data=final_folder_files[final_folder_files[,"import"] %in% c(2),], .margi
   
   input <- data.frame(read.csv(file=paste(final_folder_path,"//",x[,"file_name"],".csv",sep=""),header=TRUE,na.strings="NA",stringsAsFactors=FALSE),
                       stringsAsFactors=FALSE)
-
+  
   input[,"pull_trim"] <- as.character(input[,"pull_trim"])
   
   for(i in which(sapply(input,class)=="character"))
@@ -285,12 +285,10 @@ a_ply(.data=final_folder_files[final_folder_files[,"import"] %in% c(3),], .margi
   
   input_cols_keep <- c("pull_trim","pull","Fund_ID","Dead_Date","yr","month","date","bad_min","bad_max","AUM")                        
   input <- data.frame(read.csv(file=paste(final_folder_path,"//",x[,"file_name"],".csv",sep=""),header=TRUE,na.strings="NA",stringsAsFactors=FALSE)[,input_cols_keep],
-                          stringsAsFactors=FALSE)
+                      stringsAsFactors=FALSE)
   
   #input <- data.frame(read.csv(file=paste(final_folder_path,"//",x[,"file_name"],".csv",sep=""),header=TRUE,na.strings="NA",stringsAsFactors=FALSE),
   #                    stringsAsFactors=FALSE)
-  
-  rm2(input_cols_keep)
   
   colnames(input)[match("AUM",names(input))] <- "pull_trim2"
   
@@ -298,7 +296,7 @@ a_ply(.data=final_folder_files[final_folder_files[,"import"] %in% c(3),], .margi
   input[,"pull_trim2"] <- gsub(pattern="_NAV_AUM", replacement="", x=input[,"pull_trim2"])
   
   input <- input[,c("pull_trim","pull_trim2","pull",
-                            colnames(input)[!(colnames(input) %in% c("pull_trim","pull_trim2","pull"))])]
+                    colnames(input)[!(colnames(input) %in% c("pull_trim","pull_trim2","pull"))])]
   
   input[,"pull_trim"] <- as.character(input[,"pull_trim"])
   
@@ -349,70 +347,130 @@ EurekahedgeHF_Fund_Details_deaddates <- EurekahedgeHF_Fund_Details
 EurekahedgeHF_Fee_and_Redemption_deaddates <- EurekahedgeHF_Fee_and_Redemption
 EurekahedgeHF_Profile_Strategy_deaddates <- EurekahedgeHF_Profile_Strategy
 EurekahedgeHF_Identifiers_deaddates <- EurekahedgeHF_Identifiers
+EurekahedgeHF_Instruments_Traded_deaddates <- EurekahedgeHF_Instruments_Traded
 EurekahedgeHF_Other_deaddates <- EurekahedgeHF_Other
 
 rm2(EurekahedgeHF_Stats_noreturns,EurekahedgeHF_Fund_Details,EurekahedgeHF_Fee_and_Redemption)
-rm2(EurekahedgeHF_Profile_Strategy,EurekahedgeHF_Identifiers,EurekahedgeHF_Other)
+rm2(EurekahedgeHF_Profile_Strategy,EurekahedgeHF_Identifiers,EurekahedgeHF_Instruments_Traded,EurekahedgeHF_Other)
 
-fix_dead_dates_temp1 <- list(data=c("EurekahedgeHF_Stats_noreturns_deaddates"),col=c("Dead_Date"))
-fix_dead_dates_temp2 <- list(data=c("EurekahedgeHF_Fund_Details_deaddates"),col=c("Dead_Date"))
-fix_dead_dates_temp3 <- list(data=c("EurekahedgeHF_Fee_and_Redemption_deaddates"),col=c("Dead_Date"))
-fix_dead_dates_temp4 <- list(data=c("EurekahedgeHF_Profile_Strategy_deaddates"),col=c("Dead_Date"))
-fix_dead_dates_temp5 <- list(data=c("EurekahedgeHF_Identifiers_deaddates"),col=c("Dead_Date"))
+fix_dead_dates_temp1 <- list(data=c("EurekahedgeHF_Stats_noreturns_deaddates"))
+fix_dead_dates_temp2 <- list(data=c("EurekahedgeHF_Fund_Details_deaddates"))
+fix_dead_dates_temp3 <- list(data=c("EurekahedgeHF_Fee_and_Redemption_deaddates"))
+fix_dead_dates_temp4 <- list(data=c("EurekahedgeHF_Profile_Strategy_deaddates"))
+fix_dead_dates_temp5 <- list(data=c("EurekahedgeHF_Identifiers_deaddates"))
+fix_dead_dates_temp6 <- list(data=c("EurekahedgeHF_Instruments_Traded_deaddates"))
 
 fix_dead_dates_all <- list(fix_dead_dates_temp1,fix_dead_dates_temp2,fix_dead_dates_temp3,
-                           fix_dead_dates_temp4,fix_dead_dates_temp5)
+                           fix_dead_dates_temp4,fix_dead_dates_temp5,fix_dead_dates_temp6)
 
 rm2(fix_dead_dates_temp1,fix_dead_dates_temp2,fix_dead_dates_temp3)
-rm2(fix_dead_dates_temp4,fix_dead_dates_temp5)
-
+rm2(fix_dead_dates_temp4,fix_dead_dates_temp5,fix_dead_dates_temp6)
 
 l_ply(.data=fix_dead_dates_all, .fun = function(x,ids,merge_data){
   
   # x <- fix_dead_dates_all[[1]]
-  # dead_dates_fixed <- Dead_Dates
+  # ids <- c("pull_trim","pull_trim2")
+  # merge_data <- "Merge_IDs"
   
-  dead_dates_fixed_trim <- unique(dead_dates_fixed[,!(colnames(dead_dates_fixed) %in% c("pull"))])
+  require(data.table)
   
-  data_temp <- get(x[[1]])
-  col_temp <- x[[2]]
+  #data_name_temp <- x[[1]]
+  #data_temp <- get(x[[1]])
   
-  col_order <- data.frame(col=colnames(data_temp),order=NA,stringsAsFactors=FALSE)
-  col_order[,"order"] <- seq(1,nrow(col_order))
+  cat(x[[1]], "\n")
   
-  col_order_org <- data.frame(col=colnames(data_temp),order=NA,stringsAsFactors=FALSE)
-  col_order_org[,"order"] <- seq(1,nrow(col_order_org))
-  col_order_org[,"col"] <- ifelse(col_order_org[,"col"] %in% col_temp,paste(col_order_org[,"col"],"_org",sep=""),col_order_org[,"col"])
+  files_temp1 <- x[[1]]
+  files_temp1_trim <- data.frame(file=x[[1]],row_str=NA,col_str=NA,file_str=NA,stringsAsFactors=FALSE)
+  #files_temp1_trim[,"row_str"] <- paste(files_temp1_trim[,"file"],"[",",","'pull_trim2'","]","==","'",x[,"pull_trim2"],"'",sep="")
+  files_temp1_trim[,"row_str"] <- ""
+  files_temp1_trim[,"col_str"] <- paste("!(colnames(",files_temp1_trim[,"file"],") %in% c('Dead_Date'))",sep="")
+  files_temp1_trim[,"file_str"] <- paste(files_temp1_trim[,"file"],"[",files_temp1_trim[,"row_str"],",",files_temp1_trim[,"col_str"],"]",sep="")
   
-  col_order_all <- unique(rbind(col_order_org,col_order))
+  rm(files_temp1)
   
-  col_order_all <- col_order_all[order(col_order_all[,"order"]),]
-  row.names(col_order_all) <- seq(nrow(col_order_all))
+  files_temp2 <- merge_data
+  files_temp2_trim <- data.frame(file=files_temp2[!is.na(files_temp2)],row_str=NA,col_str=NA,file_str=NA,stringsAsFactors=FALSE)
+  #files_temp2_trim[,"row_str"] <- paste(files_temp2_trim[,"file"],"[",",","'pull_trim2'","]","==","'",x[,"pull_trim2"],"'",sep="")
+  files_temp2_trim[,"row_str"] <- ""
+  files_temp2_trim[,"col_str"] <- paste("!(colnames(",files_temp2_trim[,"file"],") %in% c('pull'))",sep="")
+  files_temp2_trim[,"file_str"] <- paste(files_temp2_trim[,"file"],"[",files_temp2_trim[,"row_str"],",",files_temp2_trim[,"col_str"],"]",sep="")
   
-  #Rename original columns
-  data_temp <- rename.vars(data_temp, col_temp, paste(col_temp,"_org",sep=""),info=FALSE)
+  rm(files_temp2)
   
-  data_temp2 <- merge(data_temp,dead_dates_fixed_trim,
-                      by.x=c("Fund_ID","Fund_Name"), 
-                      by.y=c("Fund_ID","Fund_Name"), 
-                      all.x=TRUE, all.y=FALSE, sort=FALSE, suffixes=c(".x",".y"))
+  files_temp_all <- rbind(files_temp2_trim,files_temp1_trim)
   
-  data_temp2  <- data_temp2[order(data_temp2[,"Fund_ID"],data_temp2[,"Fund_Name"],data_temp2[,"pull"]),]
-  row.names(data_temp2) <- seq(nrow(data_temp2))
+  rm(files_temp2_trim,files_temp1_trim)
   
-  #Get column order
-  
-  #data_temp2 <- data_temp2[,sort(colnames(data_temp2), decreasing = FALSE)]
-  data_temp2 <- data_temp2[,col_order_all[,"col"]]
-  
-  assign(x[[1]], data_temp2, envir = .GlobalEnv)
-  
-  gc()
-  
-},dead_dates_fixed=Dead_Dates, .progress = "text")
+  merge_temp <- eval(parse(text=files_temp_all[1,"file_str"]))
 
-rm2(fix_dead_dates_all)
+  #for (i in 1:nrow(files_temp_all)) {print(paste(files_temp_all[i,"file"],": nrow = ",nrow(eval(parse(text=files_temp_all[i,"file_str"]))),sep=""))}
+  
+  for (i in 2:nrow(files_temp_all)) {
+    
+    # i <- 2
+    
+    data_temp <- data.frame(file_str=rbind("merge_temp",files_temp_all[i,"file_str"]),stringsAsFactors=FALSE)
+    
+    common_ids1a <- adply(.data=data_temp, .margins=1, .fun = function(x){
+      
+      temp_order <- data.frame(cols=colnames(eval(parse(text=x[,"file_str"]))),order=NA,stringsAsFactors=FALSE)
+      temp_order[,"order"] <- seq(1,nrow(temp_order))
+      return(temp_order)
+      
+    }, .expand = FALSE, .progress = "none")
+    
+    common_ids1b <- ddply(.data=common_ids1a[,!(colnames(common_ids1a) %in% c("X1"))], .variables=c("cols"),.fun = function(x){
+      
+      return(data.frame(freq=nrow(x),avg_order=mean(x[,"order"]),stringsAsFactors=FALSE))
+      
+    }, .progress = "none")
+    
+    rm(common_ids1a)
+    
+    common_ids1b <- common_ids1b[order(common_ids1b[,"avg_order"],common_ids1b[,"freq"],common_ids1b[,"cols"]),]
+    row.names(common_ids1b) <- seq(nrow(common_ids1b))
+    
+    common_ids1 <- common_ids1b[common_ids1b[,"freq"]==nrow(data_temp),] 
+    
+    rm(common_ids1b)
+    
+    #data_str1 <- paste("list(",paste(data_temp[,"file_str"], sep = "", collapse = ","),")",sep="")
+    #merge_temp <- join_all(eval(parse(text=data_str1)), by = common_ids1[,"cols"], type = "left", match = "all")
+    
+    merge_temp <- merge(data.table(merge_temp, key=common_ids1[,"cols"]),
+                        eval(parse(text=paste("data.table(",data_temp[2,"file_str"],",key=common_ids1[,'cols'])",sep=""))),
+                        by.x=common_ids1[,"cols"], by.y=common_ids1[,"cols"], 
+                        all.x=TRUE, all.y=FALSE, sort=FALSE, suffixes=c(".x",".y"))
+    
+    invisible(gc(verbose = FALSE, reset = TRUE))
+    
+    rm(data_temp,common_ids1)
+  }
+  rm(i,files_temp_all)
+  
+  invisible(gc(verbose = FALSE, reset = TRUE))
+  
+  order_ids <- c("pull_trim","pull_trim2",
+                 "Fund_ID","Fund_Name","Date_Added","Flagship","Closed","Limited","Dead","Dead_Date","Dead_Reason",
+                 "date","yr","month","bad_min","bad_max")
+  
+  merge_temp <- as.data.frame(merge_temp,stringsAsFactors=FALSE)
+  
+  merge_temp <- merge_temp[,c(order_ids,colnames(merge_temp)[!(colnames(merge_temp) %in% c(order_ids))])]
+  
+  merge_temp <- merge_temp[order(merge_temp[,"Fund_ID"],merge_temp[,"date"],
+                                 merge_temp[,"pull_trim"],merge_temp[,"pull_trim2"]),]
+  row.names(merge_temp) <- seq(nrow(merge_temp))
+  
+  assign(x[[1]], merge_temp, envir = .GlobalEnv)
+  
+  rm(merge_temp,order_ids)
+  
+  invisible(gc(verbose = FALSE, reset = TRUE))
+  
+},ids=c("pull_trim","pull_trim2"), merge_data="Merge_IDs", .progress = "text")
 
+rm2(Merge_IDs,fix_dead_dates_all)
 
 
 # ###############################################################################
