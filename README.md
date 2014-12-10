@@ -1,13 +1,47 @@
-Hedge_Fund_Strategy
+Hedge_Fund_Databses
 ===================
 
-This is for the paper on hedge fund strategies
+This is for cleaning up the Eurekahedge and BarclayHedge Databases
 
-Order of file execution:
+A.  Merge Eurekahedge:
 
-  1. Hedge_Fund_Strategy_Analysis.R
-  2. Hedge_Fund_Strategy_Data_Combintion.R
-  3. Hedge_Fund_Strategy_Alphas.R
-  4. Hedge_Fund_Strategy_Descriptive_Stats.R
-  5. Hedge_Fund_Strategy_Univariate.R
-  6. Hedge_Fund_Strategy_Multivariate.R
+    Execution Order:
+
+      01. Hedge_Fund_Databases_Eurekahedge_Clean.R
+      02. Hedge_Fund_Databases_Eurekahedge_NAV_AUM_melt.R
+      03. Hedge_Fund_Databases_Eurekahedge_NAV_AUM_merge.R
+      04. Hedge_Fund_Databases_Eurekahedge_Instruments_Traded.R
+      05. Hedge_Fund_Databases_Eurekahedge_Stats.R
+      06. Hedge_Fund_Databases_Eurekahedge_Stats_Expand_Returns.R
+      07. Hedge_Fund_Databases_Eurekahedge_Fund_Details.R
+      08. Hedge_Fund_Databases_Eurekahedge_Fee_and_Redemption.R
+      09. Hedge_Fund_Databases_Eurekahedge_Profile_Strategy.R
+      10. Hedge_Fund_Databases_Eurekahedge_Identifiers.R
+      11. Hedge_Fund_Databases_Eurekahedge_Other.R
+      
+B.  Expand Eurekahedge Fields:
+
+    Execution Order:
+
+      01. Hedge_Fund_Databases_Eurekahedge_Expand_Fields.R
+
+
+C.  Clean BarclayHedge:
+
+    Execution Order:
+
+      01. XXX.R
+      02. XXX.R
+      03. XXX.R
+  
+C.  Merge the HF Databases:
+  
+    Execution Order:
+
+      01. XXX.R
+      02. XXX.R
+      03. XXX.R
+      
+      
+
+      
