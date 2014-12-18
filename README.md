@@ -23,7 +23,9 @@ B.  Expand Eurekahedge Fields:
 
     Execution Order:
 
-      01. Hedge_Fund_Databases_Eurekahedge_Expand_Fields.R
+      01. Hedge_Fund_Databases_Eurekahedge_Expand_Fields_part1.R
+	  02. Hedge_Fund_Databases_Eurekahedge_Expand_Fields_part2.R
+	  03. Hedge_Fund_Databases_Eurekahedge_Expand_Fields_part3.R
 
 
 C.  Clean BarclayHedge:

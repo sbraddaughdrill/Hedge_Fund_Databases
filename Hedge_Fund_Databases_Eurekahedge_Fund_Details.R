@@ -243,69 +243,18 @@ Details_concatenate0 <- alply(.data=Details_input, .margins=1, .fun = function(x
   rm(input_cols)
   
   #Fix Date Added
-#   input[,"Date_Added"] <- gsub(pattern="/", replacement="-", x=input[,"Date_Added"])
-#   Date_Added_month <- gsub(pattern="([0-9]|[[:punct:]])", replacement="", x=input[,"Date_Added"])
-#   Date_Added_yr <- gsub(pattern="([^0-9])", replacement="", x=input[,"Date_Added"])
-#   Date_Added_yr <- as.integer(Date_Added_yr)
-#   Date_Added_yr_prefix <- Date_Added_yr
-#   Date_Added_yr_prefix <- ifelse(Date_Added_yr_prefix>=50,19,20)
-#   Date_Added_yr_suffix <- formatC(Date_Added_yr, width=2, format="d", flag="0") 
-#   
-#   input[,"Date_Added"] <- ifelse(is.na(input[,"Date_Added"]),NA,paste(Date_Added_month," ",Date_Added_yr_prefix,Date_Added_yr_suffix,sep=""))
-#   
-#   #input[,"Date_Added"] <- paste(Date_Added_month," ","20",Date_Added_yr,sep="")
-#   input[,"Date_Added"] <- as.yearmon(input[,"Date_Added"],format="%b %Y")
-#   input[,"Date_Added"] <- as.Date(input[,"Date_Added"],format="%m-%d-%Y")
-#   input[,"Date_Added"] <- as.character(input[,"Date_Added"])
-#   
-#   rm(Date_Added_month,Date_Added_yr,Date_Added_yr_prefix,Date_Added_yr_suffix)
-  
 input[,"Date_Added"] <- as.yearmon(input[,"Date_Added"],format="%b-%y")
 #input[,"Date_Added"] <- as.Date(input[,"Date_Added"],format="%m-%d-%Y")
 input[,"Date_Added"] <- as.character(input[,"Date_Added"])
 
 
   #Fix Dead Date
-#   input[,"Dead_Date"] <- gsub(pattern="/", replacement="-", x=input[,"Dead_Date"])
-#   Dead_Date_month <- gsub(pattern="([0-9]|[[:punct:]])", replacement="", x=input[,"Dead_Date"])
-#   Dead_Date_yr <- gsub(pattern="([^0-9])", replacement="", x=input[,"Dead_Date"])
-#   Dead_Date_yr <- as.integer(Dead_Date_yr)
-#   Dead_Date_yr_prefix <- Dead_Date_yr
-#   Dead_Date_yr_prefix <- ifelse(Dead_Date_yr_prefix>=50,19,20)
-#   Dead_Date_yr_suffix <- formatC(Dead_Date_yr, width=2, format="d", flag="0") 
-#   
-#   input[,"Dead_Date"] <- ifelse(is.na(input[,"Dead_Date"]),NA,paste(Dead_Date_month," ",Dead_Date_yr_prefix,Dead_Date_yr_suffix,sep=""))
-#   
-#   #input[,"Dead_Date"] <- paste(Dead_Date_month," ","20",Dead_Date_yr,sep="")
-#   input[,"Dead_Date"] <- as.yearmon(input[,"Dead_Date"],format="%b %Y")
-#   input[,"Dead_Date"] <- as.Date(input[,"Dead_Date"],format="%m-%d-%Y")
-#   input[,"Dead_Date"] <- as.character(input[,"Dead_Date"])
-#   
-#   rm(Dead_Date_month,Dead_Date_yr,Dead_Date_yr_prefix,Dead_Date_yr_suffix)
-
 input[,"Dead_Date"] <- as.yearmon(input[,"Dead_Date"],format="%b-%y")
 #input[,"Dead_Date"] <- as.Date(input[,"Dead_Date"],format="%m-%d-%Y")
 input[,"Dead_Date"] <- as.character(input[,"Dead_Date"])
 
 
   #Fix Inception Date
-#   input[,"Inception_Date"] <- gsub(pattern="/", replacement="-", x=input[,"Inception_Date"])
-#   Inception_Date_month <- gsub(pattern="([0-9]|[[:punct:]])", replacement="", x=input[,"Inception_Date"])
-#   Inception_Date_yr <- gsub(pattern="([^0-9])", replacement="", x=input[,"Inception_Date"])
-#   Inception_Date_yr <- as.integer(Inception_Date_yr)
-#   Inception_Date_yr_prefix <- Inception_Date_yr
-#   Inception_Date_yr_prefix <- ifelse(Inception_Date_yr_prefix>=50,19,20)
-#   Inception_Date_yr_suffix <- formatC(Inception_Date_yr, width=2, format="d", flag="0") 
-#   
-#   input[,"Inception_Date"] <- ifelse(is.na(input[,"Inception_Date"]),NA,paste(Inception_Date_month," ",Inception_Date_yr_prefix,Inception_Date_yr_suffix,sep=""))
-#   
-#   #input[,"Inception_Date"] <- paste(Inception_Date_month," ","20",Inception_Date_yr,sep="")
-#   input[,"Inception_Date"] <- as.yearmon(input[,"Inception_Date"],format="%b %Y")
-#   input[,"Inception_Date"] <- as.Date(input[,"Inception_Date"],format="%m-%d-%Y")
-#   input[,"Inception_Date"] <- as.character(input[,"Inception_Date"])
-#   
-#   rm(Inception_Date_month,Inception_Date_yr,Inception_Date_yr_prefix,Inception_Date_yr_suffix)
-
 input[,"Inception_Date"] <- as.yearmon(input[,"Inception_Date"],format="%b-%y")
 #input[,"Inception_Date"] <- as.Date(input[,"Inception_Date"],format="%m-%d-%Y")
 input[,"Inception_Date"] <- as.character(input[,"Inception_Date"])
