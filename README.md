@@ -24,8 +24,8 @@ B.  Expand Eurekahedge Fields:
     Execution Order:
 
       01. Hedge_Fund_Databases_Eurekahedge_Expand_Fields_part1.R
-	  02. Hedge_Fund_Databases_Eurekahedge_Expand_Fields_part2.R
-	  03. Hedge_Fund_Databases_Eurekahedge_Expand_Fields_part3.R
+	    02. Hedge_Fund_Databases_Eurekahedge_Expand_Fields_part2.R
+	    03. Hedge_Fund_Databases_Eurekahedge_Expand_Fields_part3.R
 
 
 C.  Clean BarclayHedge:
@@ -36,7 +36,7 @@ C.  Clean BarclayHedge:
       02. XXX.R
       03. XXX.R
   
-C.  Merge the HF Databases:
+D.  Merge the HF Databases:
   
     Execution Order:
 
@@ -45,5 +45,18 @@ C.  Merge the HF Databases:
       03. XXX.R
       
       
+
+
+
+
+
+E.  Hedge Fund Revisors:
+
+    Execution Order:
+
+      01. Hedge_Fund_Databases_Revisors.R
+      02. XXX.R
+      03. XXX.R
+
 
       
